@@ -1,6 +1,6 @@
 {
     "name": "laravel-notification-channels/sendgrid",
-    "description": ":package_description",
+    "description": "Laravel Notification Channel for Sengrid.com",
     "homepage": "https://github.com/laravel-notification-channels/sendgrid",
     "license": "MIT",
     "authors": [

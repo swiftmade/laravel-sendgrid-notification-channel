@@ -1,11 +1,11 @@
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/laravel-sendgrid-notification-channel)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/sendgrid.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/sendgrid)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/laravel-notification-channels/laravel-sendgrid-notification-channel/master.svg?style=flat-square)](https://travis-ci.org/laravel-notification-channels/laravel-sendgrid-notification-channel)
+[![Build Status](https://img.shields.io/travis/laravel-notification-channels/sendgrid/master.svg?style=flat-square)](https://travis-ci.org/laravel-notification-channels/sendgrid)
 [![StyleCI](https://styleci.io/repos/:style_ci_id/shield)](https://styleci.io/repos/:style_ci_id)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/:sensio_labs_id.svg?style=flat-square)](https://insight.sensiolabs.com/projects/:sensio_labs_id)
-[![Quality Score](https://img.shields.io/scrutinizer/g/laravel-notification-channels/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/laravel-sendgrid-notification-channel)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/laravel-sendgrid-notification-channel/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/laravel-sendgrid-notification-channel/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/laravel-sendgrid-notification-channel)
+[![Quality Score](https://img.shields.io/scrutinizer/g/laravel-notification-channels/sendgrid.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/sendgrid)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/sendgrid/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/sendgrid/?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/sendgrid.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/sendgrid)
 
 This package makes it easy to send notifications using [SendGrid](https://sendgrid.com) with Laravel 5.5+, 6.x and 7.x
 
@@ -26,7 +26,7 @@ This package makes it easy to send notifications using [SendGrid](https://sendgr
 To get started, you need to require this package:
 
 ```bash
-composer require swiftmade/laravel-sendgrid-notification-channel
+composer require laravel-notification-channels/sendgrid
 ```
 
 Next, make sure you have a valid sendgrid api key at `config/services.php`. You may copy the example configuration below to get started:
@@ -80,7 +80,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [swiftmade](https://github.com/swiftmade)
-- [cuonggt](https://github.com/cuonggt/laravel-sendgrid-notification-channel)
+- [cuonggt](https://github.com/cuonggt/sendgrid)
 - [All Contributors](../../contributors)
 
 ## License
