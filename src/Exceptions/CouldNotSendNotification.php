@@ -1,11 +1,11 @@
 <?php
 
-namespace NotificationChannels\:channel_namespace\Exceptions;
+namespace NotificationChannels\SendGrid\Exceptions;
 
 class CouldNotSendNotification extends \Exception
 {
     public static function serviceRespondedWithAnError($response)
     {
-        return new static("Descriptive error message.");
+        return new static($response);
     }
 }
