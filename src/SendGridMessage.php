@@ -69,7 +69,7 @@ class SendGridMessage
      * @param  array  $data
      * @return $this
      */
-    public function to($email, $name, $data = [])
+    public function to($email, $name = null, $data = [])
     {
         $this->tos = array_merge($this->tos, [new To($email, $name, $data)]);
 
@@ -88,14 +88,6 @@ class SendGridMessage
      */
     public function build(): Mail
     {
-        if (! $this->from) {
-            // If from is not defined, use the values set in Laravel config
-            $this->from(
-                config('mail.from.address'),
-                config('mail.from.name')
-            );
-        }
-
         $email = new Mail(
             $this->from,
             $this->tos

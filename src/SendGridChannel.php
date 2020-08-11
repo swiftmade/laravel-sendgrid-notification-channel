@@ -33,7 +33,21 @@ class SendGridChannel
             throw new Exception('You must implement toSendGrid in the notification class for SendGrid channel.');
         }
 
+        /**
+         * @var SendGridMessage
+         */
         $message = $notification->toSendGrid($notifiable);
+
+        if (empty($message->from)) {
+            $message->from(
+                config('mail.from.address'),
+                config('mail.from.name')
+            );
+        }
+
+        if (empty($message->tos)) {
+            $message->to($notifiable->routeNotificationFor('mail'));
+        }
 
         if (! ($message instanceof SendGridMessage)) {
             throw new Exception('toSendGrid must return an instance of SendGridMessage.');
