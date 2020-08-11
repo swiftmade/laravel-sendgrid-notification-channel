@@ -9,6 +9,7 @@ use NotificationChannels\SendGrid\SendGridChannel;
 use NotificationChannels\SendGrid\SendGridMessage;
 use PHPUnit\Framework\TestCase;
 use SendGrid;
+use SendGrid\Response;
 
 class SendGridChannelTest extends TestCase
 {
@@ -26,6 +27,9 @@ class SendGridChannelTest extends TestCase
             $sendgrid = Mockery::mock(new SendGrid('x'))
         );
 
+        $response = Mockery::mock(Response::class);
+        $response->shouldReceive('statusCode')->once()->andReturn(200);
+
         $message = $notification->toSendGrid($notifiable);
 
         $this->assertEquals($message->templateId, 'sendgrid-template-id');
@@ -37,7 +41,7 @@ class SendGridChannelTest extends TestCase
         $this->assertEquals($message->payload['baz'], 'foo2');
 
         // TODO: Verify that the Mail instance passed contains all the info from above
-        $sendgrid->shouldReceive('send')->once();
+        $sendgrid->shouldReceive('send')->once()->andReturn($response);
 
         $channel->send($notifiable, $notification);
     }

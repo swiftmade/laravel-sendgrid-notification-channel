@@ -88,6 +88,14 @@ class SendGridMessage
      */
     public function build(): Mail
     {
+        if (! $this->from) {
+            // If from is not defined, use the values set in Laravel config
+            $this->from(
+                config('mail.from.address'),
+                config('mail.from.name')
+            );
+        }
+
         $email = new Mail(
             $this->from,
             $this->tos

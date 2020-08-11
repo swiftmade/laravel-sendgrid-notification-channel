@@ -39,10 +39,12 @@ class SendGridChannel
             throw new Exception('toSendGrid must return an instance of SendGridMessage.');
         }
 
-        try {
-            $this->sendGrid->send($message->build());
-        } catch (Exception $e) {
-            throw CouldNotSendNotification::serviceRespondedWithAnError($e->getMessage());
+        $response = $this->sendGrid->send($message->build());
+
+        if ($response->statusCode() !== 200) {
+            throw CouldNotSendNotification::serviceRespondedWithAnError(
+                $response->body()
+            );
         }
     }
 }
