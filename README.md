@@ -2,7 +2,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/swiftmade/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/swiftmade/laravel-sendgrid-notification-channel)
 
-This package makes it easy to send notifications using [SendGrid](https://sendgrid.com) with Laravel 5.5+, 6.x and 7.x
+This package makes it easy to send notifications using [SendGrid](https://sendgrid.com) Dynamic Emails API  with Laravel 5.5+, 6.x and 7.x
 
 ## Contents
 
