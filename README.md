@@ -49,13 +49,14 @@ To make use of this package, your notification class should look like this:
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
+use NotificationChannels\SendGrid\SendGridChannel;
 
 class ExampleNotification extends Notification
 {
     public function via($notifiable)
     {
         return [
-            \NotificationChannels\SendGrid\SendGridChannel::class,
+            SendGridChannel::class,
             // And any other channels you want can go here...
         ];
     }
