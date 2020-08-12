@@ -66,9 +66,21 @@ class ExampleNotification extends Notification
     public function toSendGrid($notifiable)
     {
         return (new SendGridMessage('Your SendGrid template ID'))
+            /**
+             * optionally set the from address.
+             * by default this comes from config/mail.from
+             * ->from('no-reply@test.com', 'App name')
+             */        
+            
+            /**
+             * optionally set the recipient. 
+             * by default it's $notifiable->email:
+             * ->to('hello@example.com', 'Mr. Smith')
+             */
+            
             ->payload([
-		        "template_var_1" => "template_value_1"
-			]);
+                "template_var_1" => "template_value_1"
+            ]);
 	}
 }
 
