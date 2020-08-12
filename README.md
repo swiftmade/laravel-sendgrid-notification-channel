@@ -1,10 +1,5 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/swiftmade/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/swiftmade/laravel-sendgrid-notification-channel)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/swiftmade/laravel-sendgrid-notification-channel/master.svg?style=flat-square)](https://travis-ci.org/swiftmade/laravel-sendgrid-notification-channel)
-[![StyleCI](https://styleci.io/repos/:style_ci_id/shield)](https://styleci.io/repos/:style_ci_id)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/:sensio_labs_id.svg?style=flat-square)](https://insight.sensiolabs.com/projects/:sensio_labs_id)
-[![Quality Score](https://img.shields.io/scrutinizer/g/swiftmade/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://scrutinizer-ci.com/g/swiftmade/laravel-sendgrid-notification-channel)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/swiftmade/laravel-sendgrid-notification-channel/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/swiftmade/laravel-sendgrid-notification-channel/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/swiftmade/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/swiftmade/laravel-sendgrid-notification-channel)
 
 This package makes it easy to send notifications using [SendGrid](https://sendgrid.com) with Laravel 5.5+, 6.x and 7.x
