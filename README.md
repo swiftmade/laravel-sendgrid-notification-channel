@@ -29,6 +29,8 @@ To get started, you need to require this package:
 composer require swiftmade/laravel-sendgrid-notification-channel
 ```
 
+The service provider will be auto-detected by Laravel. So, no need to register it manually.
+
 Next, make sure you have a valid sendgrid api key at `config/services.php`. You may copy the example configuration below to get started:
 
 ```php
@@ -39,25 +41,42 @@ Next, make sure you have a valid sendgrid api key at `config/services.php`. You 
 
 ## Usage
 
-You should add a `toSendGrid` method into the notification class. This method will receive a `$notifiable` entity and should return a  `NotificationChannels\SendGrid\SendGridMessage` instance:
+To make use of this package, your notification class should look like this:
 
 ```php
-    /**
-     * Get the SendGrid representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \NotificationChannels\SendGrid\SendGridMessage
-     */
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Notifications\Notification;
+
+class ExampleNotification extends Notification
+{
+    public function via($notifiable)
+    {
+        return [
+            \NotificationChannels\SendGrid\SendGridChannel::class,
+            // And any other channels you want can go here...
+        ];
+    }
+    
+    // ...
+
     public function toSendGrid($notifiable)
     {
         return (new SendGridMessage('Your SendGrid template ID'))
-                    ->payload([
-						"template_var_1" => "template_value_1"
-					])
-                    ->from('test@example.com', 'Example User')
-                    ->to('test+test1@example.com', 'Example User1');
+            ->payload([
+		        "template_var_1" => "template_value_1"
+			]);
 	}
+}
+
 ```
+
+`toSendGrid` method will receive a `$notifiable` entity and should return a  `NotificationChannels\SendGrid\SendGridMessage` instance.
+
+💡 Unless you set them explicitly, **From** address will be `config('mail.from.address')` and the **To** value will be what returns from `$notifiable->routeNotificationFor('mail');`
+
 
 ## Changelog
 
