@@ -55,7 +55,7 @@ class SendGridChannel
 
         $response = $this->sendGrid->send($message->build());
 
-        if ($response->statusCode() !== 200) {
+        if ($response->statusCode() < 200 || $response->statusCode() >= 300) {
             throw CouldNotSendNotification::serviceRespondedWithAnError(
                 $response->body()
             );
