@@ -23,7 +23,10 @@ class SendGridMessage
      */
     public $tos = [];
 
-
+    /**
+     * The reply to address for the message.
+     */
+    public $replyTo;
 
     /**
      * The SendGrid Template ID for the message.
@@ -82,7 +85,7 @@ class SendGridMessage
     public function replyTo($email, $name = null)
     {
         $this->replyTo = new ReplyTo($email, $name);
-        
+
         return $this;
     }
 
@@ -102,6 +105,8 @@ class SendGridMessage
             $this->from,
             $this->tos
         );
+
+        $email->setReplyTo($this->replyTo);
 
         $email->setTemplateId($this->templateId);
 
