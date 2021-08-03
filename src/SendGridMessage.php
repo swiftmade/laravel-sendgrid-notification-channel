@@ -4,6 +4,7 @@ namespace NotificationChannels\SendGrid;
 
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
+use SendGrid\Mail\ReplyTo;
 use SendGrid\Mail\To;
 
 class SendGridMessage
@@ -21,6 +22,8 @@ class SendGridMessage
      * @var array
      */
     public $tos = [];
+
+
 
     /**
      * The SendGrid Template ID for the message.
@@ -73,6 +76,13 @@ class SendGridMessage
     {
         $this->tos = array_merge($this->tos, [new To($email, $name, $data)]);
 
+        return $this;
+    }
+
+    public function replyTo($email, $name = null)
+    {
+        $this->replyTo = new ReplyTo($email, $name);
+        
         return $this;
     }
 
