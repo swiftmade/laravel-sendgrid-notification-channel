@@ -28,7 +28,7 @@ class SendGridChannelTest extends TestCase
         );
 
         $response = Mockery::mock(Response::class);
-        $response->shouldReceive('statusCode')->once()->andReturn(200);
+        $response->shouldReceive('statusCode')->andReturn(200);
 
         $message = $notification->toSendGrid($notifiable);
 
