@@ -39,7 +39,8 @@ class SendGridChannelTest extends TestCase
         $this->assertEquals($message->tos[0]->getName(), 'Example User1');
         $this->assertEquals($message->payload['bar'], 'foo');
         $this->assertEquals($message->payload['baz'], 'foo2');
-
+        $this->assertEquals($message->replyTo->getEmail(), 'replyto@example.com');
+        $this->assertEquals($message->replyTo->getName(), 'Reply To');
         // TODO: Verify that the Mail instance passed contains all the info from above
         $sendgrid->shouldReceive('send')->once()->andReturn($response);
 
@@ -59,6 +60,7 @@ class NotificationSendGridChannelTestNotification extends Notification
         return (new SendGridMessage('sendgrid-template-id'))
             ->from('test@example.com', 'Example User')
             ->to('test+test1@example.com', 'Example User1')
+            ->replyTo('replyto@example.com', 'Reply To')
             ->payload([
                 'bar' => 'foo',
                 'baz' => 'foo2',
