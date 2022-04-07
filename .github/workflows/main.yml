@@ -23,11 +23,8 @@ jobs:
         stability: [prefer-stable]
         include:
           - laravel: 7.*
-            testbench: 5.*
           - laravel: 8.*
-            testbench: ^6.6
           - laravel: 9.*
-            testbench: 7.*
         # Laravel 7 has no support for PHP 8.1
         exclude:
           - laravel: 7.*
