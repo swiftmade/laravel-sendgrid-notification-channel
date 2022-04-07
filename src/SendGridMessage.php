@@ -2,10 +2,10 @@
 
 namespace NotificationChannels\SendGrid;
 
+use SendGrid\Mail\To;
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\ReplyTo;
-use SendGrid\Mail\To;
 
 class SendGridMessage
 {

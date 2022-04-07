@@ -2,14 +2,14 @@
 
 namespace NotificationChannels\SendGrid\Test;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
 use Mockery;
-use NotificationChannels\SendGrid\SendGridChannel;
-use NotificationChannels\SendGrid\SendGridMessage;
-use PHPUnit\Framework\TestCase;
 use SendGrid;
 use SendGrid\Response;
+use PHPUnit\Framework\TestCase;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+use NotificationChannels\SendGrid\SendGridChannel;
+use NotificationChannels\SendGrid\SendGridMessage;
 
 class SendGridChannelTest extends TestCase
 {
@@ -20,8 +20,23 @@ class SendGridChannelTest extends TestCase
 
     public function testEmailIsSentViaSendGrid()
     {
-        $notification = new NotificationSendGridChannelTestNotification;
-        $notifiable = new NotificationSendGridChannelTestNotifiable;
+        $notification = new class extends Notification {
+            public function toSendGrid($notifiable)
+            {
+                return (new SendGridMessage('sendgrid-template-id'))
+                    ->from('test@example.com', 'Example User')
+                    ->to('test+test1@example.com', 'Example User1')
+                    ->replyTo('replyto@example.com', 'Reply To')
+                    ->payload([
+                        'bar' => 'foo',
+                        'baz' => 'foo2',
+                    ]);
+            }
+        };
+
+        $notifiable = new class {
+            use Notifiable;
+        };
 
         $channel = new SendGridChannel(
             $sendgrid = Mockery::mock(new SendGrid('x'))
@@ -41,29 +56,10 @@ class SendGridChannelTest extends TestCase
         $this->assertEquals($message->payload['baz'], 'foo2');
         $this->assertEquals($message->replyTo->getEmail(), 'replyto@example.com');
         $this->assertEquals($message->replyTo->getName(), 'Reply To');
+
         // TODO: Verify that the Mail instance passed contains all the info from above
         $sendgrid->shouldReceive('send')->once()->andReturn($response);
 
         $channel->send($notifiable, $notification);
-    }
-}
-
-class NotificationSendGridChannelTestNotifiable
-{
-    use Notifiable;
-}
-
-class NotificationSendGridChannelTestNotification extends Notification
-{
-    public function toSendGrid($notifiable)
-    {
-        return (new SendGridMessage('sendgrid-template-id'))
-            ->from('test@example.com', 'Example User')
-            ->to('test+test1@example.com', 'Example User1')
-            ->replyTo('replyto@example.com', 'Reply To')
-            ->payload([
-                'bar' => 'foo',
-                'baz' => 'foo2',
-            ]);
     }
 }
