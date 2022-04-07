@@ -2,10 +2,10 @@
 
 namespace NotificationChannels\SendGrid;
 
+use SendGrid;
 use Exception;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\SendGrid\Exceptions\CouldNotSendNotification;
-use SendGrid;
 
 class SendGridChannel
 {

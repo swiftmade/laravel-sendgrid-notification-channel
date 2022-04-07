@@ -2,14 +2,14 @@
 
 namespace NotificationChannels\SendGrid\Test;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
 use Mockery;
-use NotificationChannels\SendGrid\SendGridChannel;
-use NotificationChannels\SendGrid\SendGridMessage;
-use PHPUnit\Framework\TestCase;
 use SendGrid;
 use SendGrid\Response;
+use PHPUnit\Framework\TestCase;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+use NotificationChannels\SendGrid\SendGridChannel;
+use NotificationChannels\SendGrid\SendGridMessage;
 
 class SendGridChannelTest extends TestCase
 {

@@ -2,9 +2,8 @@
 
 namespace NotificationChannels\SendGrid;
 
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\ServiceProvider;
 use SendGrid;
+use Illuminate\Support\ServiceProvider;
 
 class SendGridServiceProvider extends ServiceProvider
 {
