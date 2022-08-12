@@ -129,14 +129,16 @@ class SendGridMessage
     }
 
     /**
-     * Set the "sandboxMode".
+     * Enabling sandbox mode allows you to send a test email to
+     * ensure that your request body is formatted correctly
+     * without delivering the email to any of your recipients.
      *
-     * @param bool $enabled
+     * @see https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode
      * @return $this
      */
-    public function enableSandboxMode($enabled)
+    public function enableSandboxMode()
     {
-        $this->sandboxMode = $enabled;
+        $this->sandboxMode = true;
 
         return $this;
     }

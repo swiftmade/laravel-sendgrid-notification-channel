@@ -77,7 +77,7 @@ class SendGridChannelTest extends TestCase
                         'bar' => 'foo',
                         'baz' => 'foo2',
                     ])
-                    ->enableSandboxMode(true);
+                    ->enableSandboxMode();
             }
         };
 
