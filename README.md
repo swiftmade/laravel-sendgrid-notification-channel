@@ -103,7 +103,7 @@ class ExampleNotification extends Notification
 
 To enable sandbox mode you will need to
 
-1. Chain on the `enableSandboxMode(value)` to the `new SendGridMessage('template_id')`
+1. Chain on the `enableSandboxMode(bool)` to the `new SendGridMessage('template_id')`
 
 Example:
 
@@ -149,10 +149,6 @@ class ExampleNotification extends Notification
 }
 
 ```
-
-`NotificationChannels\SendGrid\SendGridMessage` instance will enable sandbox mode.
-
-💡 You can pass through a config value into the `->enableSandboxMode(config('key'))`
 
 ## Changelog
 
