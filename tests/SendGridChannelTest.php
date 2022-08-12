@@ -56,6 +56,7 @@ class SendGridChannelTest extends TestCase
         $this->assertEquals($message->payload['baz'], 'foo2');
         $this->assertEquals($message->replyTo->getEmail(), 'replyto@example.com');
         $this->assertEquals($message->replyTo->getName(), 'Reply To');
+        $this->assertEquals($message->sandbox_mode, false);
 
         // TODO: Verify that the Mail instance passed contains all the info from above
         $sendgrid->shouldReceive('send')->once()->andReturn($response);
