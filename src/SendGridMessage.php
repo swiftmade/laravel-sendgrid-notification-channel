@@ -47,7 +47,7 @@ class SendGridMessage
      *
      * @var bool
      */
-    public $sandbox_mode = false;
+    public $sandboxMode = false;
 
     /**
      * Create a new SendGrid channel instance.
@@ -117,7 +117,7 @@ class SendGridMessage
 
         $email->setTemplateId($this->templateId);
 
-        if($this->sandbox_mode){
+        if ($this->sandboxMode) {
             $email->enableSandBoxMode();
         }
 
@@ -129,14 +129,14 @@ class SendGridMessage
     }
 
     /**
-     * Set the "sandbox_mode".
+     * Set the "sandboxMode".
      *
      * @param bool $enabled
      * @return $this
      */
     public function enableSandboxMode($enabled)
     {
-        $this->sandbox_mode = $enabled;
+        $this->sandboxMode = $enabled;
 
         return $this;
     }
