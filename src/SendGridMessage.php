@@ -43,6 +43,11 @@ class SendGridMessage
     public $payload = [];
 
     /**
+     * The sandbox mode for SendGrid
+     */
+    public $sandbox_mode = false;
+
+    /**
      * Create a new SendGrid channel instance.
      *
      * @param  string  $templateId
@@ -110,10 +115,24 @@ class SendGridMessage
 
         $email->setTemplateId($this->templateId);
 
+        if($this->sandbox_mode){
+            $email->enableSandBoxMode();
+        }
+
         foreach ($this->payload as $key => $value) {
             $email->addDynamicTemplateData((string) $key, (string) $value);
         }
 
         return $email;
+    }
+
+    /**
+     * Set the "sandbox_mode".
+     */
+    public function enableSandboxMode($enabled): SendGridMessage
+    {
+        $this->sandbox_mode = $enabled;
+
+        return $this;
     }
 }
