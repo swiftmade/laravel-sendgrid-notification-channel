@@ -44,6 +44,8 @@ class SendGridMessage
 
     /**
      * The sandbox mode for SendGrid
+     *
+     * @var bool
      */
     public $sandbox_mode = false;
 
@@ -128,8 +130,10 @@ class SendGridMessage
 
     /**
      * Set the "sandbox_mode".
+     * @param bool $enabled
+     * @return $this
      */
-    public function enableSandboxMode($enabled): SendGridMessage
+    public function enableSandboxMode($enabled)
     {
         $this->sandbox_mode = $enabled;
 
