@@ -130,6 +130,7 @@ class SendGridMessage
 
     /**
      * Set the "sandbox_mode".
+     *
      * @param bool $enabled
      * @return $this
      */
