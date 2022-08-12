@@ -99,6 +99,22 @@ class ExampleNotification extends Notification
 
 💡 Unless you set it explicitly, the **From** address will be set to `config('mail.from.address')` and the **To** value will be what returns from `$notifiable->routeNotificationFor('mail');`
 
+### Enabling Sandbox Mode
+
+To enable sandbox mode you will need to chain on the `enableSandboxMode()` to the message object.
+
+Example:
+
+```php
+return (new SendGridMessage('Your SendGrid template ID'))
+    ->enableSandboxMode()
+    ->payload([
+        "template_var_1" => "template_value_1"
+    ]);
+```
+
+When making a request with sandbox mode enabled, Sendgrid will validate the form, type, and shape of your request. No email will be sent. You can read more about the sandbox mode [here](https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode).
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
@@ -120,7 +136,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 -   [swiftmade](https://github.com/swiftmade)
--   [cuonggt](https://github.com/cuonggt/sendgrid)
+-   [cuonggt](https://github.com/cuonggt/laravel-sendgrid-notification-channel)
 -   [All Contributors](../../contributors)
 
 ## License
