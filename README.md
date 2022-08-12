@@ -120,7 +120,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 -   [swiftmade](https://github.com/swiftmade)
--   [cuonggt](https://github.com/cuonggt/sendgrid)
+-   [cuonggt](https://github.com/cuonggt/laravel-sendgrid-notification-channel)
 -   [All Contributors](../../contributors)
 
 ## License
