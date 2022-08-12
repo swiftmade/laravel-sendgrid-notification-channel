@@ -47,7 +47,7 @@ class SendGridMessage
      *
      * @var bool
      */
-    public $sandbox_mode = false;
+    public $sandboxMode = false;
 
     /**
      * Create a new SendGrid channel instance.
@@ -117,7 +117,7 @@ class SendGridMessage
 
         $email->setTemplateId($this->templateId);
 
-        if($this->sandbox_mode){
+        if ($this->sandboxMode) {
             $email->enableSandBoxMode();
         }
 
@@ -129,14 +129,16 @@ class SendGridMessage
     }
 
     /**
-     * Set the "sandbox_mode".
+     * Enabling sandbox mode allows you to send a test email to
+     * ensure that your request body is formatted correctly
+     * without delivering the email to any of your recipients.
      *
-     * @param bool $enabled
+     * @see https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode
      * @return $this
      */
-    public function enableSandboxMode($enabled)
+    public function enableSandboxMode()
     {
-        $this->sandbox_mode = $enabled;
+        $this->sandboxMode = true;
 
         return $this;
     }
