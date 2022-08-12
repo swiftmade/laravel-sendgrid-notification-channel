@@ -99,56 +99,21 @@ class ExampleNotification extends Notification
 
 💡 Unless you set it explicitly, the **From** address will be set to `config('mail.from.address')` and the **To** value will be what returns from `$notifiable->routeNotificationFor('mail');`
 
-## Sandbox Mode
+### Enabling Sandbox Mode
 
-To enable sandbox mode you will need to
-
-1. Chain on the `enableSandboxMode(true)` to the `new SendGridMessage('template_id')`
+To enable sandbox mode you will need to chain on the `enableSandboxMode()` to the message object.
 
 Example:
 
 ```php
-<?php
-
-namespace App\Notifications;
-
-use Illuminate\Notifications\Notification;
-use NotificationChannels\SendGrid\SendGridChannel;
-
-class ExampleNotification extends Notification
-{
-    public function via($notifiable)
-    {
-        return [
-            SendGridChannel::class,
-            // And any other channels you want can go here...
-        ];
-    }
-
-    // ...
-
-    public function toSendGrid($notifiable)
-    {
-        return (new SendGridMessage('Your SendGrid template ID'))
-            /**
-             * optionally set the from address.
-             * by default this comes from config/mail.from
-             * ->from('no-reply@test.com', 'App name')
-             */
-            /**
-             * optionally set the recipient.
-             * by default it's $notifiable->email:
-             * ->to('hello@example.com', 'Mr. Smith')
-             */
-            
-            ->enableSandboxMode(true)
-            ->payload([
-                "template_var_1" => "template_value_1"
-            ]);
-	}
-}
-
+return (new SendGridMessage('Your SendGrid template ID'))
+    ->enableSandboxMode()
+    ->payload([
+        "template_var_1" => "template_value_1"
+    ]);
 ```
+
+When making a request with sandbox mode enabled, Sendgrid will validate the form, type, and shape of your request. No email will be sent. You can read more about the sandbox mode [here](https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode).
 
 ## Changelog
 
