@@ -99,6 +99,61 @@ class ExampleNotification extends Notification
 
 💡 Unless you set it explicitly, the **From** address will be set to `config('mail.from.address')` and the **To** value will be what returns from `$notifiable->routeNotificationFor('mail');`
 
+## Sandbox Mode
+
+To enable sandbox mode you will need to
+
+1. Chain on the `enableSandboxMode(value)` to the `new SendGridMessage('template_id')`
+
+Example:
+
+```php
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Notifications\Notification;
+use NotificationChannels\SendGrid\SendGridChannel;
+
+class ExampleNotification extends Notification
+{
+    public function via($notifiable)
+    {
+        return [
+            SendGridChannel::class,
+            // And any other channels you want can go here...
+        ];
+    }
+
+    // ...
+
+    public function toSendGrid($notifiable)
+    {
+        return (new SendGridMessage('Your SendGrid template ID'))
+            /**
+             * optionally set the from address.
+             * by default this comes from config/mail.from
+             * ->from('no-reply@test.com', 'App name')
+             */
+            /**
+             * optionally set the recipient.
+             * by default it's $notifiable->email:
+             * ->to('hello@example.com', 'Mr. Smith')
+             */
+            
+            ->enableSandboxMode(true)
+            ->payload([
+                "template_var_1" => "template_value_1"
+            ]);
+	}
+}
+
+```
+
+`NotificationChannels\SendGrid\SendGridMessage` instance will enable sandbox mode.
+
+💡 You can pass through a config value into the `->enableSandboxMode(config('key'))`
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
