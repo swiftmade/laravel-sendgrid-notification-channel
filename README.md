@@ -103,7 +103,7 @@ class ExampleNotification extends Notification
 
 To enable sandbox mode you will need to
 
-1. Chain on the `enableSandboxMode(bool)` to the `new SendGridMessage('template_id')`
+1. Chain on the `enableSandboxMode(true)` to the `new SendGridMessage('template_id')`
 
 Example:
 
