@@ -136,9 +136,9 @@ class SendGridMessage
      * @see https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode
      * @return $this
      */
-    public function enableSandboxMode()
+    public function enableSandboxMode( $enabled = true)
     {
-        $this->sandboxMode = true;
+        $this->sandboxMode = $enabled;
 
         return $this;
     }
