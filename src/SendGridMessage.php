@@ -134,9 +134,10 @@ class SendGridMessage
      * without delivering the email to any of your recipients.
      *
      * @see https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode
+     * @param bool $enabled
      * @return $this
      */
-    public function enableSandboxMode( $enabled = true)
+    public function enableSandboxMode($enabled = true)
     {
         $this->sandboxMode = $enabled;
 
