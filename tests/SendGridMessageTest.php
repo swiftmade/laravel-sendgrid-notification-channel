@@ -2,17 +2,11 @@
 
 namespace NotificationChannels\SendGrid\Test;
 
-use Mockery;
 use PHPUnit\Framework\TestCase;
 use NotificationChannels\SendGrid\SendGridMessage;
 
 class SendGridMessageTest extends TestCase
 {
-    public function tearDown(): void
-    {
-        Mockery::close();
-    }
-
     public function testDynamicVariables()
     {
         $message = new SendGridMessage('template-id');
