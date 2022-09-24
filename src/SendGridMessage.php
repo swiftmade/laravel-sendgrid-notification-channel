@@ -121,7 +121,7 @@ class SendGridMessage
             : $email->disableSandBoxMode();
 
         foreach ($this->payload as $key => $value) {
-            $email->addDynamicTemplateData((string) $key, (string) $value);
+            $email->addDynamicTemplateData((string) $key, $value);
         }
 
         return $email;
