@@ -114,12 +114,11 @@ class SendGridMessage
         );
 
         $email->setReplyTo($this->replyTo);
-
         $email->setTemplateId($this->templateId);
 
-        if ($this->sandboxMode) {
-            $email->enableSandBoxMode();
-        }
+        $this->sandboxMode
+            ? $email->enableSandBoxMode()
+            : $email->disableSandBoxMode();
 
         foreach ($this->payload as $key => $value) {
             $email->addDynamicTemplateData((string) $key, (string) $value);
