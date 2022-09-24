@@ -114,18 +114,27 @@ class SendGridMessage
         );
 
         $email->setReplyTo($this->replyTo);
-
         $email->setTemplateId($this->templateId);
 
-        if ($this->sandboxMode) {
-            $email->enableSandBoxMode();
-        }
+        $this->sandboxMode
+            ? $email->enableSandBoxMode()
+            : $email->disableSandBoxMode();
 
         foreach ($this->payload as $key => $value) {
-            $email->addDynamicTemplateData((string) $key, (string) $value);
+            $email->addDynamicTemplateData((string) $key, $value);
         }
 
         return $email;
+    }
+
+    /**
+     * @param bool $sandboxMode
+     */
+    public function setSandboxMode($sandboxMode)
+    {
+        $this->sandboxMode = $sandboxMode;
+
+        return $this;
     }
 
     /**
@@ -138,8 +147,6 @@ class SendGridMessage
      */
     public function enableSandboxMode()
     {
-        $this->sandboxMode = true;
-
-        return $this;
+        return $this->setSandboxMode(true);
     }
 }
