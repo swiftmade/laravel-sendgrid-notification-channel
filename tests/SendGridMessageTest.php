@@ -16,7 +16,7 @@ class SendGridMessageTest extends TestCase
     public function testDynamicVariables()
     {
         $message = new SendGridMessage('template-id');
-        $message->payload([
+        $message->payload($payload = [
             'bar' => 'string',
             'baz' => null,
             'foo' => [
@@ -27,6 +27,10 @@ class SendGridMessageTest extends TestCase
         ]);
 
         $mail = $message->build();
+        $this->assertEquals(
+            $payload,
+            $mail->getPersonalization()->getDynamicTemplateData()
+        );
     }
 
     public function testSandboxMode()
