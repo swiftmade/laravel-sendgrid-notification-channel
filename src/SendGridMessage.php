@@ -6,6 +6,7 @@ use SendGrid\Mail\To;
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\ReplyTo;
+use SendGrid\Mail\Attachment;
 
 class SendGridMessage
 {
@@ -41,6 +42,13 @@ class SendGridMessage
      * @var array
      */
     public $payload = [];
+
+    /**
+     * An array of attachments for the message.
+     *
+     * @var array
+     */
+    public $attachments = [];
 
     /**
      * The sandbox mode for SendGrid
@@ -103,6 +111,26 @@ class SendGridMessage
         return $this;
     }
 
+    public function attach($attachments)
+    {
+        /*
+        $attachments should be an array of individual attachments. content should be base64 encoded.
+
+        Example:
+        $attachments = array(
+            array(
+                'content' => base64_encode($content),
+                'type' => 'application/pdf',
+                'filename' => 'filename.pdf'
+            )
+        );
+        */
+
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+
     /**
      * @return Mail
      */
@@ -122,6 +150,24 @@ class SendGridMessage
 
         foreach ($this->payload as $key => $value) {
             $email->addDynamicTemplateData((string) $key, $value);
+        }
+
+        if (is_array($this->attachments) && !empty($this->attachments)) {
+            foreach ($this->attachments as $attachment) {
+                $disposition = (isset($attachment['disposition'])) ? strtolower($attachment['disposition']) : "attachment";
+
+                $sgAttachment = new Attachment();
+                $sgAttachment->setType($attachment['type']);
+                $sgAttachment->setContent($attachment['content']);
+                $sgAttachment->setDisposition($disposition);
+                $sgAttachment->setFilename($attachment['filename']);
+
+                if ($disposition === "inline") {
+                    $sgAttachment->setContentID($attachment['filename']);
+                }
+
+                $email->addAttachment($sgAttachment);
+            }
         }
 
         return $email;
