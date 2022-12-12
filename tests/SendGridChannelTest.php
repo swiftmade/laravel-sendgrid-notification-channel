@@ -5,7 +5,6 @@ namespace NotificationChannels\SendGrid\Test;
 use Mockery;
 use SendGrid;
 use SendGrid\Response;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\SendGrid\SendGridChannel;

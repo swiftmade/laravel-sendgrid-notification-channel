@@ -125,7 +125,7 @@ class SendGridMessage
      * @param  array  $options
      * @return $this
      */
-    public function attach($file, array $options)
+    public function attach($file, array $options = [])
     {
         if (! isset($options['mime'])) {
             $options['mime'] = File::mimeType($file);
@@ -188,7 +188,7 @@ class SendGridMessage
      * @param  string  $file
      * @return string
      */
-    public function embed($file, array $options)
+    public function embed($file, array $options = [])
     {
         if (! isset($options['mime'])) {
             $options['mime'] = File::mimeType($file);
