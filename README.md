@@ -120,6 +120,21 @@ return (new SendGridMessage('Your SendGrid template ID'))
 
 When making a request with sandbox mode enabled, Sendgrid will validate the form, type, and shape of your request. No email will be sent. You can read more about the sandbox mode [here](https://docs.sendgrid.com/for-developers/sending-email/sandbox-mode).
 
+### Attachments
+
+You can attach or embed (inline attachment) files to your messages. `SendGridMessage` object exposes the following methods to help you do that:
+
+-   `attach($file, $options)`
+-   `attachData($data, $name, $options)`
+-   `embed($file, $options)`
+-   `embedData($data, $name, $options)`
+
+**Good to know:**
+
+-   While using `attachData` and `embedData` you must always pass the `mime` key in the options array.
+-   You can use the `as` key in the options to change the filename to appears in the email. (e.g. `attach($file, ['as' => 'invoice-3252.pdf'])`)
+-   `embed` and `embedData` methods will return the ContentID with `cid:` in front (e.g. `embed('avatar.jpg') -> "cid:avatar.jpg"`).
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.

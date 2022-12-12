@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 2.3.0 - 2022-12-12
+
+-   Attachments and inline attachments are now supported.
+
 ## 2.2.0 - 2022-09-24
 
 -   You can now pass nested arrays, numbers, bools as the payload. Previously, the library only accepted strings. (Thanks [timstl](https://github.com/swiftmade/laravel-sendgrid-notification-channel/pull/7))
