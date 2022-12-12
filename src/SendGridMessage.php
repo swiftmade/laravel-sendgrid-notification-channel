@@ -2,10 +2,13 @@
 
 namespace NotificationChannels\SendGrid;
 
+use RuntimeException;
 use SendGrid\Mail\To;
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\ReplyTo;
+use SendGrid\Mail\Attachment;
+use Illuminate\Support\Facades\File;
 
 class SendGridMessage
 {
@@ -41,6 +44,13 @@ class SendGridMessage
      * @var array
      */
     public $payload = [];
+
+    /**
+     * An array of attachments for the message.
+     *
+     * @var array
+     */
+    public $attachments = [];
 
     /**
      * The sandbox mode for SendGrid
@@ -104,6 +114,116 @@ class SendGridMessage
     }
 
     /**
+     * Attach a file to the message.
+     *
+     * array(
+     *  'as' => 'name.pdf',
+     *  'mime' => 'application/pdf',
+     * )
+     *
+     * @param  string  $file
+     * @param  array  $options
+     * @return $this
+     */
+    public function attach($file, array $options = [])
+    {
+        if (! isset($options['mime'])) {
+            $options['mime'] = File::mimeType($file);
+        }
+
+        // TODO: Support "Attachable" and "Attachment" types.
+
+        return $this->attachData(
+            file_get_contents($file),
+            $file,
+            $options
+        );
+    }
+
+    /**
+     * Attach in-memory data as an attachment.
+     *
+     * @param  string  $data
+     * @param  string  $name
+     * @param  array  $options
+     * @return $this
+     */
+    public function attachData($data, $name, array $options)
+    {
+        if (! isset($options['mime'])) {
+            throw new RuntimeException(
+                'Cannot predict mimetype of "' . $name . '". '
+                    . 'Provide a valid \'mime\' in $options parameter.'
+            );
+        }
+
+        $showFilenameAs = isset($options['as'])
+            ? $options['as']
+            : basename($name);
+
+        $attachment = new Attachment(
+            base64_encode($data),
+            $options['mime'],
+            $showFilenameAs,
+            isset($options['inline']) ? 'inline' : 'attachment'
+        );
+
+        if (isset($options['inline'])) {
+            $attachment->setContentID($showFilenameAs);
+        }
+
+        $this->attachments[] = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * Add inline attachment from a file in the message and get the CID.
+     *
+     * array(
+     *  'as' => 'name.pdf',
+     *  'mime' => 'application/pdf',
+     * )
+     *
+     * @param  string  $file
+     * @return string
+     */
+    public function embed($file, array $options = [])
+    {
+        if (! isset($options['mime'])) {
+            $options['mime'] = File::mimeType($file);
+        }
+
+        // TODO: Support "Attachable" and "Attachment" types.
+
+        return $this->embedData(
+            file_get_contents($file),
+            $file,
+            $options
+        );
+    }
+
+    /**
+     * Add inline attachments from in-memory data in the message and get the CID.
+     *
+     * @param  string  $data
+     * @param  string  $name
+     * @param  string|null  $contentType
+     * @return string
+     */
+    public function embedData($data, $name, array $options)
+    {
+        $this->attachData($data, $name, array_merge(
+            $options,
+            ['inline' => true]
+        ));
+
+        $lastIndex = count($this->attachments) - 1;
+
+        return "cid:" . $this->attachments[$lastIndex]->getContentID();
+    }
+
+    /**
      * @return Mail
      */
     public function build(): Mail
@@ -123,6 +243,11 @@ class SendGridMessage
         foreach ($this->payload as $key => $value) {
             $email->addDynamicTemplateData((string) $key, $value);
         }
+
+        foreach ($this->attachments as $attachment) {
+            $email->addAttachment($attachment);
+        }
+
 
         return $email;
     }
