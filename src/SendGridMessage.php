@@ -2,11 +2,13 @@
 
 namespace NotificationChannels\SendGrid;
 
+use RuntimeException;
 use SendGrid\Mail\To;
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\ReplyTo;
 use SendGrid\Mail\Attachment;
+use Illuminate\Support\Facades\File;
 
 class SendGridMessage
 {
@@ -111,24 +113,114 @@ class SendGridMessage
         return $this;
     }
 
-    public function attach($attachments)
+    /**
+     * Attach a file to the message.
+     *
+     * array(
+     *  'as' => 'name.pdf',
+     *  'mime' => 'application/pdf',
+     * )
+     *
+     * @param  string  $file
+     * @param  array  $options
+     * @return $this
+     */
+    public function attach($file, array $options = [])
     {
-        /*
-        $attachments should be an array of individual attachments. content should be base64 encoded.
+        if (! isset($options['mime'])) {
+            $options['mime'] = File::mimeType($file);
+        }
 
-        Example:
-        $attachments = array(
-            array(
-                'content' => base64_encode($content),
-                'type' => 'application/pdf',
-                'filename' => 'filename.pdf'
-            )
+        // TODO: Support "Attachable" and "Attachment" types.
+
+        return $this->attachData(
+            file_get_contents($file),
+            $file,
+            $options
         );
-        */
+    }
 
-        $this->attachments = $attachments;
+    /**
+     * Attach in-memory data as an attachment.
+     *
+     * @param  string  $data
+     * @param  string  $name
+     * @param  array  $options
+     * @return $this
+     */
+    public function attachData($data, $name, array $options)
+    {
+        if (! isset($options['mime'])) {
+            throw new RuntimeException(
+                'Cannot predict mimetype of "' . $name . '". '
+                    . 'Provide a valid \'mime\' in $options parameter.'
+            );
+        }
+
+        $showFilenameAs = isset($options['as'])
+            ? $options['as']
+            : basename($name);
+
+        $attachment = new Attachment(
+            base64_encode($data),
+            $options['mime'],
+            $showFilenameAs,
+            isset($options['inline']) ? 'inline' : 'attachment'
+        );
+
+        if (isset($options['inline'])) {
+            $attachment->setContentID($showFilenameAs);
+        }
+
+        $this->attachments[] = $attachment;
 
         return $this;
+    }
+
+    /**
+     * Add inline attachment from a file in the message and get the CID.
+     *
+     * array(
+     *  'as' => 'name.pdf',
+     *  'mime' => 'application/pdf',
+     * )
+     *
+     * @param  string  $file
+     * @return string
+     */
+    public function embed($file, array $options = [])
+    {
+        if (! isset($options['mime'])) {
+            $options['mime'] = File::mimeType($file);
+        }
+
+        // TODO: Support "Attachable" and "Attachment" types.
+
+        return $this->embedData(
+            file_get_contents($file),
+            $file,
+            $options
+        );
+    }
+
+    /**
+     * Add inline attachments from in-memory data in the message and get the CID.
+     *
+     * @param  string  $data
+     * @param  string  $name
+     * @param  string|null  $contentType
+     * @return string
+     */
+    public function embedData($data, $name, array $options)
+    {
+        $this->attachData($data, $name, array_merge(
+            $options,
+            ['inline' => true]
+        ));
+
+        $lastIndex = count($this->attachments) - 1;
+
+        return "cid:" . $this->attachments[$lastIndex]->getContentID();
     }
 
     /**
@@ -152,23 +244,10 @@ class SendGridMessage
             $email->addDynamicTemplateData((string) $key, $value);
         }
 
-        if (is_array($this->attachments) && !empty($this->attachments)) {
-            foreach ($this->attachments as $attachment) {
-                $disposition = (isset($attachment['disposition'])) ? strtolower($attachment['disposition']) : "attachment";
-
-                $sgAttachment = new Attachment();
-                $sgAttachment->setType($attachment['type']);
-                $sgAttachment->setContent($attachment['content']);
-                $sgAttachment->setDisposition($disposition);
-                $sgAttachment->setFilename($attachment['filename']);
-
-                if ($disposition === "inline") {
-                    $sgAttachment->setContentID($attachment['filename']);
-                }
-
-                $email->addAttachment($sgAttachment);
-            }
+        foreach ($this->attachments as $attachment) {
+            $email->addAttachment($attachment);
         }
+
 
         return $email;
     }
