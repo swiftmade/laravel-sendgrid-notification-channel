@@ -3,9 +3,7 @@
 namespace NotificationChannels\SendGrid;
 
 use RuntimeException;
-use SendGrid\Mail\Cc;
 use SendGrid\Mail\To;
-use SendGrid\Mail\Bcc;
 use SendGrid\Mail\From;
 use SendGrid\Mail\Mail;
 use SendGrid\Mail\ReplyTo;
@@ -27,20 +25,6 @@ class SendGridMessage
      * @var array
      */
     public $tos = [];
-
-    /**
-     * CC recipients
-     *
-     * @var array
-     */
-    public $ccs = [];
-
-    /**
-     * BCC recipients
-     *
-     * @var array
-     */
-    public $bccs = [];
 
     /**
      * The reply to address for the message.
@@ -118,20 +102,6 @@ class SendGridMessage
     public function to($email, $name = null, $data = [])
     {
         $this->tos = array_merge($this->tos, [new To($email, $name, $data)]);
-
-        return $this;
-    }
-
-    public function cc($email, $name = null, $data = [])
-    {
-        $this->ccs = array_merge($this->ccs, [new Cc($email, $name, $data)]);
-
-        return $this;
-    }
-
-    public function bcc($email, $name = null, $data = [])
-    {
-        $this->bccs = array_merge($this->bccs, [new Bcc($email, $name, $data)]);
 
         return $this;
     }
