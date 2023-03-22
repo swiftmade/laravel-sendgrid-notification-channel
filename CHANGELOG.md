@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 2.5.0 - 2023-03-22
+
+`SendGridMessage` now has a customize() method. See readme for details.
+
 ## 2.3.0 - 2022-12-12
 
 -   Attachments and inline attachments are now supported.
