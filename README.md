@@ -135,6 +135,33 @@ You can attach or embed (inline attachment) files to your messages. `SendGridMes
 -   You can use the `as` key in the options to change the filename to appears in the email. (e.g. `attach($file, ['as' => 'invoice-3252.pdf'])`)
 -   `embed` and `embedData` methods will return the ContentID with `cid:` in front (e.g. `embed('avatar.jpg') -> "cid:avatar.jpg"`).
 
+### Full Access to the Sendgrid Mail Object
+
+If you need more customization options, you can work directly with the underlying Sendgrid Mail object.
+To utilize this, simply pass a callback using the `customize` method.
+
+```php
+use SendGrid\Mail\Mail;
+
+return (new SendGridMessage('Your SendGrid template ID'))
+    ->payload([
+        'template_var_1' => 'template_value_1',
+        'template_var_2' => [
+            'value_1',
+            'value_2',
+            'value_3',
+        ],
+    ])
+    ->customize(function (Mail $mail) {
+        // Send a carbon copy (cc) to another address
+        $mail->addCc('test@test.com');
+        // Send a blind carbon copy (bcc) to another address
+        $mail->addBcc('bcc@test.com');
+    });
+```
+
+For all the options, you can see Sendgrid's Mail class [here](https://github.com/sendgrid/sendgrid-php/blob/main/lib/mail/Mail.php).
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
