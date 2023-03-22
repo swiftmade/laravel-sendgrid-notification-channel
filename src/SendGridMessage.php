@@ -20,7 +20,7 @@ class SendGridMessage
     public $from;
 
     /**
-     * The "tos" for the message.
+     * Recipients of the message.
      *
      * @var array
      */
@@ -58,6 +58,13 @@ class SendGridMessage
      * @var bool
      */
     public $sandboxMode = false;
+
+    /**
+     * The customizations callbacks for SendGrid Mail object.
+     *
+     * @var array
+     */
+    private $customizeCallbacks = [];
 
     /**
      * Create a new SendGrid channel instance.
@@ -248,6 +255,11 @@ class SendGridMessage
             $email->addAttachment($attachment);
         }
 
+        if (count($this->customizeCallbacks)) {
+            foreach ($this->customizeCallbacks as $callback) {
+                $callback($email);
+            }
+        }
 
         return $email;
     }
@@ -273,5 +285,16 @@ class SendGridMessage
     public function enableSandboxMode()
     {
         return $this->setSandboxMode(true);
+    }
+
+    /**
+     * Pass a callback that will be called with the SendGrid message
+     * before it is sent. This allows you to fully customize the message using the SendGrid library's API.
+     */
+    public function customize($callback)
+    {
+        $this->customizeCallbacks[] = $callback;
+
+        return $this;
     }
 }

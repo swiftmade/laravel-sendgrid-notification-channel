@@ -164,4 +164,17 @@ class SendGridMessageTest extends TestCase
         $this->assertEquals('inline', $attachment->getDisposition());
         $this->assertEquals('blank.png', $attachment->getContentID());
     }
+
+    public function testCustomizeCallback()
+    {
+        $message = new SendGridMessage('template-id');
+        $mailRef = null;
+
+        $message->customize(function ($mail) use (&$mailRef) {
+            $mailRef = $mail;
+        });
+
+        $message->build();
+        $this->assertInstanceOf(\SendGrid\Mail\Mail::class, $mailRef);
+    }
 }
