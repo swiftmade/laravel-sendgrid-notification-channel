@@ -2,15 +2,15 @@
 
 namespace NotificationChannels\SendGrid\Test;
 
-use Illuminate\Notifications\Events\NotificationSent;
 use Mockery;
 use SendGrid;
 use SendGrid\Response;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Event;
 use NotificationChannels\SendGrid\SendGridChannel;
 use NotificationChannels\SendGrid\SendGridMessage;
+use Illuminate\Notifications\Events\NotificationSent;
 
 class SendGridChannelTest extends TestCase
 {
@@ -23,8 +23,7 @@ class SendGridChannelTest extends TestCase
     {
         Event::fake();
 
-        $notification = new class extends Notification
-        {
+        $notification = new class extends Notification {
             public function via()
             {
                 return [SendGridChannel::class];
@@ -43,8 +42,7 @@ class SendGridChannelTest extends TestCase
             }
         };
 
-        $notifiable = new class
-        {
+        $notifiable = new class {
             use Notifiable;
         };
 
