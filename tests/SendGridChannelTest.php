@@ -2,11 +2,13 @@
 
 namespace NotificationChannels\SendGrid\Test;
 
+use Illuminate\Notifications\Events\NotificationSent;
 use Mockery;
 use SendGrid;
 use SendGrid\Response;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Event;
 use NotificationChannels\SendGrid\SendGridChannel;
 use NotificationChannels\SendGrid\SendGridMessage;
 
@@ -19,7 +21,15 @@ class SendGridChannelTest extends TestCase
 
     public function testEmailIsSentViaSendGrid()
     {
-        $notification = new class extends Notification {
+        Event::fake();
+
+        $notification = new class extends Notification
+        {
+            public function via()
+            {
+                return [SendGridChannel::class];
+            }
+
             public function toSendGrid($notifiable)
             {
                 return (new SendGridMessage('sendgrid-template-id'))
@@ -33,13 +43,16 @@ class SendGridChannelTest extends TestCase
             }
         };
 
-        $notifiable = new class {
+        $notifiable = new class
+        {
             use Notifiable;
         };
 
         $channel = new SendGridChannel(
             $sendgrid = Mockery::mock(new SendGrid('x'))
         );
+
+        $this->app->instance(SendGridChannel::class, $channel);
 
         $response = Mockery::mock(Response::class);
         $response->shouldReceive('statusCode')->andReturn(200);
@@ -60,6 +73,16 @@ class SendGridChannelTest extends TestCase
         // TODO: Verify that the Mail instance passed contains all the info from above
         $sendgrid->shouldReceive('send')->once()->andReturn($response);
 
-        $channel->send($notifiable, $notification);
+        $notifiable->notify($notification);
+
+        Event::assertDispatched(
+            NotificationSent::class,
+            fn ($event) => $event->channel === SendGridChannel::class
+        );
+
+        Event::assertDispatched(
+            NotificationSent::class,
+            fn ($event) => $event->response instanceof Response
+        );
     }
 }

@@ -29,7 +29,7 @@ class SendGridChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if (! method_exists($notification, 'toSendGrid')) {
+        if (!method_exists($notification, 'toSendGrid')) {
             throw new Exception('You must implement toSendGrid in the notification class for SendGrid channel.');
         }
 
@@ -49,7 +49,7 @@ class SendGridChannel
             $message->to($notifiable->routeNotificationFor('mail'));
         }
 
-        if (! ($message instanceof SendGridMessage)) {
+        if (!($message instanceof SendGridMessage)) {
             throw new Exception('toSendGrid must return an instance of SendGridMessage.');
         }
 
@@ -60,5 +60,7 @@ class SendGridChannel
                 $response->body()
             );
         }
+
+        return $response;
     }
 }
