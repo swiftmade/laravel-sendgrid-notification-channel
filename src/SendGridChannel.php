@@ -60,5 +60,7 @@ class SendGridChannel
                 $response->body()
             );
         }
+
+        return $response;
     }
 }

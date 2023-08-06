@@ -162,6 +162,21 @@ return (new SendGridMessage('Your SendGrid template ID'))
 
 For all the options, you can see Sendgrid's Mail class [here](https://github.com/sendgrid/sendgrid-php/blob/main/lib/mail/Mail.php).
 
+### Accessing SendGrid Response
+
+After the notification is sent, Laravel will emit `Illuminate\Notifications\Events\NotificationSent` event. You can listen to this event to get the SendGrid response object and/or message ID.
+
+```php
+use Illuminate\Notifications\Events\NotificationSent;
+
+Event::listen(NotificationSent::class, function (NotificationSent $event) {
+    /**
+     * @var \SendGrid\Response $response
+     */
+    $response = $event->response;
+});
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
