@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 2.6.0 - 2023-08-06
+
+`Illuminate\Notifications\Events\NotificationSent` event now receives the SendGrid Response object in the `$response` property.
+
 ## 2.5.0 - 2023-03-22
 
 `SendGridMessage` now has a customize() method. See readme for details.
