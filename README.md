@@ -84,7 +84,7 @@ class ExampleNotification extends Notification
              */
             /**
              * optionally set the recipient.
-             * by default it's $notifiable->email:
+             * by default it's $notifiable->routeNotificationFor('mail')
              * ->to('hello@example.com', 'Mr. Smith')
              */
             ->payload([
