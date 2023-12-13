@@ -6,6 +6,7 @@ use SendGrid;
 use Exception;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\SendGrid\Exceptions\CouldNotSendNotification;
+use SendGrid\Mail\To;
 
 class SendGridChannel
 {
@@ -29,7 +30,7 @@ class SendGridChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if (! method_exists($notification, 'toSendGrid')) {
+        if (!method_exists($notification, 'toSendGrid')) {
             throw new Exception('You must implement toSendGrid in the notification class for SendGrid channel.');
         }
 
@@ -46,10 +47,18 @@ class SendGridChannel
         }
 
         if (empty($message->tos)) {
-            $message->to($notifiable->routeNotificationFor('mail'));
+            $to = $notifiable->routeNotificationFor('mail');
+
+            // Handle the case where routeNotificationForMail returns an array (email => name)
+            if (is_array($to)) {
+                reset($to);
+                $message->to(key($to), current($to));
+            } else {
+                $message->to($to);
+            }
         }
 
-        if (! ($message instanceof SendGridMessage)) {
+        if (!($message instanceof SendGridMessage)) {
             throw new Exception('toSendGrid must return an instance of SendGridMessage.');
         }
 
