@@ -47,13 +47,10 @@ class SendGridChannelTest extends TestCase
         };
 
         $channel = new SendGridChannel(
-            $sendgrid = Mockery::mock(new SendGrid('x'))
+            $this->mockSendgrid()
         );
 
         $this->app->instance(SendGridChannel::class, $channel);
-
-        $response = Mockery::mock(Response::class);
-        $response->shouldReceive('statusCode')->andReturn(200);
 
         $message = $notification->toSendGrid($notifiable);
 
@@ -67,9 +64,6 @@ class SendGridChannelTest extends TestCase
         $this->assertEquals($message->replyTo->getEmail(), 'replyto@example.com');
         $this->assertEquals($message->replyTo->getName(), 'Reply To');
         $this->assertEquals($message->sandboxMode, false);
-
-        // TODO: Verify that the Mail instance passed contains all the info from above
-        $sendgrid->shouldReceive('send')->once()->andReturn($response);
 
         $notifiable->notify($notification);
 
