@@ -109,7 +109,7 @@ class SendGridChannelTest extends TestCase
         $notifiable = new class {
             use Notifiable;
 
-            public function routeNotificationForMail()
+            public function routeNotificationForMail($notification)
             {
                 return 'john@example.com';
             }
@@ -124,7 +124,7 @@ class SendGridChannelTest extends TestCase
         $notifiableWithEmailAndName = new class {
             use Notifiable;
 
-            public function routeNotificationForMail()
+            public function routeNotificationForMail($notification)
             {
                 return [
                     'john@example.com' => 'John Doe',
