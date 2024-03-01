@@ -46,7 +46,7 @@ class SendGridChannel
         }
 
         if (empty($message->tos)) {
-            $to = $notifiable->routeNotificationFor('mail');
+            $to = $notifiable->routeNotificationFor('mail', $notification);
 
             // Handle the case where routeNotificationForMail returns an array (email => name)
             if (is_array($to)) {
