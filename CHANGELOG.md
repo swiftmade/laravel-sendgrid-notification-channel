@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 3.0.0 - 2024-03-05
+
+Added support for Laravel 11.
+
 ## 2.6.0 - 2023-08-06
 
 `Illuminate\Notifications\Events\NotificationSent` event now receives the SendGrid Response object in the `$response` property.
@@ -21,7 +25,7 @@ All notable changes will be documented in this file
 
 ## 2.1.0 - 2022-08-12
 
--   Added support for Sentry SDK v8
+-   Added support for Sendgrid SDK v8
 -   You can now enable sandbox mode while sending emails. (Thanks [@zbrody](https://github.com/swiftmade/laravel-sendgrid-notification-channel/pull/3))
 
 ## 2.0.0 - 2022-04-07
