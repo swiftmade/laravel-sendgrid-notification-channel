@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file
 
-## 3.0.0 - 2024-03-05
+## 2.7.0 - 2024-03-07
 
 Added support for Laravel 11.
 
