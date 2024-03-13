@@ -2,7 +2,10 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/swiftmade/laravel-sendgrid-notification-channel.svg?style=flat-square)](https://packagist.org/packages/swiftmade/laravel-sendgrid-notification-channel)
 
-Allows you to send Laravel notifications using Sendgrid's [Dynamic Transactional Templates](https://docs.sendgrid.com/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates) feature. Supports Laravel 7.x, 8.x, 9.x and 10.x.
+Allows you to send Laravel notifications using Sendgrid's [Dynamic Transactional Templates](https://docs.sendgrid.com/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates) feature.
+
+-   Minimum Laravel version required: 7.x
+-   Minimum PHP version required: 7.2
 
 (For older versions of Laravel, install v1)
 
