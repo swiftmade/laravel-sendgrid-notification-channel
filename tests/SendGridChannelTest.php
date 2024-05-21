@@ -137,6 +137,27 @@ class SendGridChannelTest extends TestCase
 
         $this->assertEquals($message->tos[0]->getEmail(), 'john@example.com');
         $this->assertEquals($message->tos[0]->getName(), 'John Doe');
+
+        //Also support multiple recipients
+        $notifiableWithEmailAndName = new class {
+            use Notifiable;
+
+            public function routeNotificationForMail($notification)
+            {
+                return [
+                    'john@example.com' => 'John Doe',
+                    'jane@example.com' => 'Jane Doe',
+                ];
+            }
+        };
+
+        $channel->send($notifiableWithEmailAndName, $notification);
+        $message = $notification->sendgridMessage;
+
+        $this->assertEquals($message->tos[0]->getEmail(), 'john@example.com');
+        $this->assertEquals($message->tos[0]->getName(), 'John Doe');
+        $this->assertEquals($message->tos[1]->getEmail(), 'jane@example.com');
+        $this->assertEquals($message->tos[1]->getName(), 'Jane Doe');
     }
 
     private function mockSendgrid($statusCode = 200)
