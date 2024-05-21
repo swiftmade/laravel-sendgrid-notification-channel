@@ -50,8 +50,9 @@ class SendGridChannel
 
             // Handle the case where routeNotificationForMail returns an array (email => name)
             if (is_array($to)) {
-                reset($to);
-                $message->to(key($to), current($to));
+                foreach ($to as $email => $name) {
+                    $message->to($email, $name);
+                }
             } else {
                 $message->to($to);
             }
