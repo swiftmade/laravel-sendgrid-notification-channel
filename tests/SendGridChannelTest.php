@@ -17,6 +17,8 @@ class SendGridChannelTest extends TestCase
     public function tearDown(): void
     {
         Mockery::close();
+
+        parent::tearDown();
     }
 
     public function testEmailIsSentViaSendGrid()
@@ -69,12 +71,12 @@ class SendGridChannelTest extends TestCase
 
         Event::assertDispatched(
             NotificationSent::class,
-            fn ($event) => $event->channel === SendGridChannel::class
+            fn($event) => $event->channel === SendGridChannel::class
         );
 
         Event::assertDispatched(
             NotificationSent::class,
-            fn ($event) => $event->response instanceof Response
+            fn($event) => $event->response instanceof Response
         );
     }
 
