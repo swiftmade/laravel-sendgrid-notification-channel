@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 2.10.0 - 2026-03-18
+
+Added support for Laravel 13.
+
 ## 2.9.0 - 2025-02-25
 
 Added support for Laravel 12.
